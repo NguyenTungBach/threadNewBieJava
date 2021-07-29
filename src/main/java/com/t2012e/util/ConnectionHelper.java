@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class ConnectionHelper {
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/%s?useUnicode=true&characterEncoding=utf-8";
-    private static final String DATABASE_NAME = "daily-news";
+    private static final String DATABASE_NAME = "t2012e-mysql-connector"; // nhớ thay đổi tên bảng theo yêu cầu gồm t2012e-mysql-connector hoặc daily-news
     private static final String DATABASE_USER = "root";
     private static final String DATABASE_PWD = "";
     private static Connection cnn;

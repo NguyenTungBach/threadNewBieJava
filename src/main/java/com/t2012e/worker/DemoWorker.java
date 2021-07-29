@@ -31,9 +31,9 @@ public class DemoWorker {
             }
         }
         // Đưa danh sách ArticleThread lên database
-        for (int i = 0; i < listThread.size(); i++) {
-            articleModel.insert(listThread.get(i).getArticle());
-        }
+//        for (int i = 0; i < listThread.size(); i++) {
+//            articleModel.insert(listThread.get(i).getArticle());
+//        }
         long endTime = System.currentTimeMillis();
         System.out.printf(endTime - startTime + "mls\n");
     }
