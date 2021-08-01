@@ -3,7 +3,7 @@ package reflection;
 import reflection.myannotaion.Id;
 import reflection.myannotaion.Table;
 
-@Table(name = "khachhang")
+@Table(name = "khachhang",nameId = "identityNumber")
 public class Customer {
 
     @Id(autoIncrement = false)
@@ -13,6 +13,10 @@ public class Customer {
     private String email;
 
     public Customer() {
+    }
+
+    public Customer(String identityNumber) {
+        this.identityNumber = identityNumber;
     }
 
     public Customer(String identityNumber, double balance, String name, String email) {
