@@ -244,12 +244,6 @@ public class MasterModel <T>{
             stringBuilder.append("select * from ");
             stringBuilder.append(tableName);
 
-            String idName = null;
-            Table id = (Table) clazz.getAnnotation(Table.class);
-            if (!table.name().isEmpty()){
-                idName = id.nameId();
-            }
-
             System.out.println(stringBuilder);
             Field[] fields = clazz.getDeclaredFields();
             PreparedStatement preparedStatement = cnn.prepareStatement(stringBuilder.toString());
