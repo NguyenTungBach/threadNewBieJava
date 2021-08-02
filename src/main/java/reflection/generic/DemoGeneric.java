@@ -4,7 +4,7 @@ import reflection.Customer;
 
 public class DemoGeneric {
     public static void main(String[] args) {
-        MasterModel<Customer> modelObj = new MasterModel<>();
+        MasterModel<Customer> modelObj = new MasterModel<Customer>(Customer.class);
         // tạo bảng
 //        modelObj.migrateData(Customer.class);
         // chèn bảng
@@ -15,7 +15,7 @@ public class DemoGeneric {
         customer.setEmail("khach@gmail5.com");
 //        modelObj.save(customer);
         // tìm đến tất cả
-//        modelObj.findAll(Customer.class);
+        modelObj.findAll(Customer.class);
         // update
 //        Customer updateCustomer = new Customer();
 //        updateCustomer.setName("Update A001");
@@ -25,6 +25,6 @@ public class DemoGeneric {
 //        modelObj.update(updateCustomer);
         Customer deleteCustomer = new Customer();
         deleteCustomer.setIdentityNumber("A004");
-        modelObj.delete(deleteCustomer);
+//        modelObj.delete(deleteCustomer);
     }
 }

@@ -14,16 +14,16 @@ import java.util.Date;
 import java.util.List;
 
 public class MasterModel <T>{
-    private Class <T> clazz;
+    private Class <T> test;
 
     // kiểm tra xem nó có phải là 1 Entity
-//    public MasterModel(Class<T> clazz) {
-//            if (!clazz.isAnnotationPresent(Table.class)) {
-//                System.err.printf("Class %s không được đăng ký làm việc với database.", clazz.getSimpleName());
-//                return;
-//            }
-//            this.clazz = clazz;
-//        }
+    public MasterModel(Class<T> clazz) {
+            if (!clazz.isAnnotationPresent(Table.class)) {
+                System.err.printf("Class %s không được đăng ký làm việc với database.", clazz.getSimpleName());
+                return;
+            }
+            this.test = clazz;
+        }
 
     public void migrateData (Class clazz){
         String tableName = clazz.getSimpleName(); // default = class name
@@ -244,33 +244,41 @@ public class MasterModel <T>{
             stringBuilder.append("select * from ");
             stringBuilder.append(tableName);
 
+            String idName = null;
+            Table id = (Table) clazz.getAnnotation(Table.class);
+            if (!table.name().isEmpty()){
+                idName = id.nameId();
+            }
+
             System.out.println(stringBuilder);
             Field[] fields = clazz.getDeclaredFields();
             PreparedStatement preparedStatement = cnn.prepareStatement(stringBuilder.toString());
                 ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()){
+                T tObj = test.newInstance();
                 int numColumns = rs.getMetaData().getColumnCount();
-//                T tObj = this.clazz.newInstance();
                 for (int i = 0; i < numColumns; i++) {
                     Field currentFieldAdd = fields[i];
                     currentFieldAdd.setAccessible(true);
-//                    System.out.println(fields[i].getName());
+                    System.out.println(fields[i].getName());
+
                     System.out.println(i + " " + rs.getMetaData().getColumnTypeName(i+1) + " " + rs.getMetaData().getColumnName(i+1) + " = " + rs.getObject(i+1) );
                     // Cần đưa vào 1 đối tượng cụ thể vào đó ví dụ như Customer customers = new Customer();
                     // cho listAll.add();// Cụ thể đối tượng cần đưa ở đây là T
-//                    if(rs.getMetaData().getColumnName(i+1).equalsIgnoreCase(fields[i].getName())){
-//                        currentFieldAdd.set(tObj,rs.getObject(i+1));
-//                    }
+                    if(rs.getMetaData().getColumnName(i+1).equalsIgnoreCase(fields[i].getName())){
+                        currentFieldAdd.set(tObj,rs.getObject(i+1));
+                    }
+
                 }
                 System.out.println("\n");
-//                listAll.add(tObj);
+                listAll.add(tObj);
             }
-//            System.out.println("list All");
-//            for (int i = 0; i < listAll.size(); i++) {
-//                System.out.println(listAll.toString());
-//            }
-        } catch (SQLException e) {
+        } catch (SQLException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
+        }
+        System.out.println("list All");
+        for (int i = 0; i < listAll.size(); i++) {
+            System.out.println(listAll.get(i).toString());
         }
         return listAll;
     }
